@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Family Finance Dashboard</h1>
+        <div class="upload-section">
+        <form method="POST" action="{{ url_for('upload_csv') }}" enctype="multipart/form-data">
+            <input type="file" name="csv_file" accept=".csv" required>
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+        <div class="time-period-tabs">
+        <a href="{{ url_for('dashboard', time_period='day') }}" 
+           class="{% if time_period == 'day' %}active{% endif %}">Daily</a>
+        <a href="{{ url_for('dashboard', time_period='month') }}" 
+           class="{% if time_period == 'month' %}active{% endif %}">Monthly</a>
+        <a href="{{ url_for('dashboard', time_period='year') }}" 
+           class="{% if time_period == 'year' %}active{% endif %}">Yearly</a>
+    </div>
+    
+    <div class="charts-container">
+        <div class="chart">
+            <h3>Spending by Category</h3>
+            <img src="data:image/png;base64,{{ pie_chart }}" alt="Pie Chart">
+        </div>
+        
+        <div class="chart">
+            <h3>Spending Over Time</h3>
+            <img src="data:image/png;base64,{{ time_chart }}" alt="Time Chart">
+        </div>
+    </div>
+    
+    <div class="expenses-table">
+        <h2>Recent Expenses</h2>
+        <a href="{{ url_for('add_expense') }}" class="btn">Add Expense</a>
+        
+        <table>
+        </table>
+    </div>
+{% endblock %}
